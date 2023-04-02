@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  darkice:
+    image: darkice
+    container_name: darkice
+    depends_on:
+      - icecast
+    devices:
+      - "/dev/snd:/dev/snd"
+    networks:
+      - no-internet
+    restart: always
+  icecast:
+    image: icecast
+    container_name: icecast
+    ports:
+      - "8000:8000"
+    networks:
+      - no-internet
+      - internet
+    restart: always
+
+networks:
+  no-internet:
+    driver: bridge
+    internal: true
+  internet:
+    driver: bridge
