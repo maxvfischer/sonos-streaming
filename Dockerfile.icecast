@@ -1,0 +1,18 @@
+# Use the focal Ubuntu image as the base
+FROM debian:bullseye
+
+# Install dependencies
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install icecast2 -y
+
+# Configure icecast2
+COPY icecast.xml /etc/icecast2/icecast.xml
+RUN chown icecast2 /etc/icecast2/icecast.xml
+
+# Expose the default Icecast2 port
+EXPOSE 8000
+
+# Run Icecast2 as the icecast2 user
+USER icecast2
+
+CMD ["icecast2", "-c", "/etc/icecast2/icecast.xml"]
