@@ -2,13 +2,8 @@
 FROM debian:bullseye
 
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install alsa-utils -y
-
 RUN apt update -y
 RUN apt install darkice -y
-RUN apt install less -y
-RUN apt install nano -y
 
 # Copy Darkice config
 COPY darkice.cfg darkice.cfg
