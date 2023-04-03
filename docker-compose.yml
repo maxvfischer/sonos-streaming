@@ -4,6 +4,8 @@ services:
   darkice:
     image: darkice
     container_name: darkice
+    build:
+      dockerfile: Dockerfile.darkice
     depends_on:
       - icecast
     devices:
@@ -11,9 +13,12 @@ services:
     networks:
       - no-internet
     restart: always
+
   icecast:
     image: icecast
     container_name: icecast
+    build:
+      dockerfile: Dockerfile.icecast
     ports:
       - "8000:8000"
     networks:
