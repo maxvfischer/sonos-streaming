@@ -1,4 +1,5 @@
-# How to stream vinyl record player to Sonos (Airplay2)
+# How to stream your vinyl record player to Sonos (Airplay2)
+This guide is based on this Instructable guide: https://www.instructables.com/Add-Aux-to-Sonos-Using-Raspberry-Pi/
 
 ## Needed hardware
 To stream the sound from a vinyl record player to the Sonos speakers, you will need:
@@ -26,6 +27,9 @@ URL: https://icecast.org
 ## Set up hardware
 
 ### Set up Raspberry Pi
+
+#### Set up static IP address
+We're setting a static IP address on the Raspberry Pi to simplify SSH-ing to it.
 
 ### Connect U-PHONE UFO202
 
