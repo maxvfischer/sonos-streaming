@@ -5,10 +5,13 @@ This guide is based on this Instructable guide: https://www.instructables.com/Ad
 To stream the sound from a vinyl record player to the Sonos speakers, you will need:
 
 * 1x RaspberryPi (with USB Type-A)
+* 1x RaspberryPi power adapter (adjusted to the RaspberryPi you're using)
+* 1x 8GB MicroSD card
+* 1x SD card reader/adapter (if your computer doesn't already support it)
 * 1x Behringer U-PHONE UFO202
 
 ## Overview software
-The the main software used is:
+The the main software used are:
 
 **Darkice**
 DarkIce is a live audio streamer. It records audio from an audio interface (e.g. sound card), 
@@ -18,11 +21,13 @@ coming from the U-PHONE UFO202.
 URL: http://www.darkice.org
 
 **Icecast2**
-Icecast is a streaming media (audio/video) server which currently supports a MP3 streams. We're 
-using it to take the live audio stream from Darkice and broadcast it out in our local network. 
-This is what the Sonos speakers will pick up and play.
+Icecast is a streaming media server which we will use to stream the live audio from Darkice and 
+broadcast it out in our local network. This is what the Sonos speakers will pick up and play.
 
 URL: https://icecast.org
+
+**Sonos app**
+
 
 ## Set up hardware
 
