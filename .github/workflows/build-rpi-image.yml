@@ -1,0 +1,35 @@
+name: Build Raspberry Pi Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker images and export them
+        run: |
+          docker build -t darkice -f Dockerfile.darkice .
+          docker build -t icecast -f Dockerfile.icecast .
+          mkdir -p exported-images
+          docker save darkice -o exported-images/darkice.tar
+          docker save icecast -o exported-images/icecast.tar
+
+      #- name: Build Raspberry Pi image
+      #  run: |
+      #    docker run --rm --privileged -v $PWD:/workspace -w /workspace user/docker-image:latest /bin/bash -c "./build-image.sh"
+#
+#      - name: Upload Raspberry Pi image
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: raspberry-pi-image
+#          path: rpi_sonos_streaming.img
