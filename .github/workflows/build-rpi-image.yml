@@ -42,25 +42,24 @@ jobs:
       - name: Build Raspberry Pi image
         run: |
           cd pi-gen
+          sudo mkdir deploy
+          sudo touch ./deploy/image_2023-04-16-rpi_image-lite.img.xz
           # ./build-docker.sh -c pigen_config
 
       - name: Check file name
         run: |
-          pwd
-          ls -lah
-          #cd deploy
-          #IMAGE_FILE="$(find . -maxdepth 1 -type f -name '*.xz')"
-          #echo $IMAGE_FILE
+          IMAGE_FILE="$(find ./pi-gen/deploy -maxdepth 1 -type f -name '*.xz')"
+          echo $IMAGE_FILE
 
-      - name: Create dummy file to test upload to GitHub Artifact
-        run: |
-          touch dummy_image.xz
-
-      - name: Upload Raspberry Pi image
-        uses: actions/upload-artifact@v2
-        with:
-          name: rpi-image
-          path: dummy_image.xz
+#      - name: Create dummy file to test upload to GitHub Artifact
+#        run: |
+#          touch dummy_image.xz
+#
+#      - name: Upload Raspberry Pi image
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: rpi-image
+#          path: dummy_image.xz
 
 #      - name: Build and push Docker image
 #        uses: docker/build-push-action@v2
