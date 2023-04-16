@@ -35,21 +35,22 @@ jobs:
           # Make pi-gen build a RPi lite system
           touch ./pi-gen/stage3/SKIP ./pi-gen/stage4/SKIP ./pi-gen/stage5/SKIP
           touch ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
+          # touch ./pi-gen/stage2/SKIP_IMAGES
           
           cp pigen_config ./pi-gen/pigen_config
 
       - name: Build Raspberry Pi image
         run: |
           cd pi-gen
-          ./build-docker.sh -c pigen_config
+          # ./build-docker.sh -c pigen_config
 
       - name: Check file name
         run: |
-          cd deploy
-          IMAGE_FILE="$(find . -maxdepth 1 -type f -name '*.xz')"
-          echo $IMAGE_FILE
           pwd
           ls -lah
+          #cd deploy
+          #IMAGE_FILE="$(find . -maxdepth 1 -type f -name '*.xz')"
+          #echo $IMAGE_FILE
 
       - name: Create dummy file to test upload to GitHub Artifact
         run: |
