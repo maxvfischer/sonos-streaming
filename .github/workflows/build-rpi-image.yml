@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies to build RPi image  # See https://github.com/RPi-Distro/pi-gen
         run: |
-          apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+          sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
           dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
           qemu-utils kpartx gpg pigz
           
