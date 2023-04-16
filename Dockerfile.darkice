@@ -4,8 +4,13 @@ FROM debian:bullseye
 # Install dependencies
 RUN apt update -y
 RUN apt install darkice -y
+RUN apt install alsa-utils -y
 
-# Copy Darkice config
+# Copy config
 COPY darkice.cfg darkice.cfg
 
-CMD ["darkice", "-c", "darkice.cfg"]
+# Copy start script
+COPY start-darkice.sh start-darkice.sh
+RUN chmod +x start-darkice.sh
+
+ENTRYPOINT ["./start-darkice.sh"]
