@@ -16,25 +16,25 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build Darkice and Icecast Docker images and export them
-        run: |
-          mkdir -p exported-images
-          docker build -t darkice -f Dockerfile.darkice .
-          docker build -t icecast -f Dockerfile.icecast .
-          docker save darkice -o exported-images/darkice.tar
-          docker save icecast -o exported-images/icecast.tar
+#      - name: Build Darkice and Icecast Docker images and export them
+#        run: |
+#          mkdir -p exported-images
+#          docker build -t darkice -f Dockerfile.darkice .
+#          docker build -t icecast -f Dockerfile.icecast .
+#          docker save darkice -o exported-images/darkice.tar
+#          docker save icecast -o exported-images/icecast.tar
 
       - name: Install dependencies to build RPi image  # See https://github.com/RPi-Distro/pi-gen
         run: |
-          sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-          dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-          qemu-utils kpartx gpg pigz
+          #sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+          #dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+          #qemu-utils kpartx gpg pigz
           
           git clone https://github.com/RPI-Distro/pi-gen.git
           
           # Make pi-gen build a RPi lite system
-          touch ./pi-gen/stage3/SKIP ./pi-gen/stage4/SKIP ./pi-gen/stage5/SKIP
-          touch ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
+          #touch ./pi-gen/stage3/SKIP ./pi-gen/stage4/SKIP ./pi-gen/stage5/SKIP
+          #touch ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
           # touch ./pi-gen/stage2/SKIP_IMAGES
           
           cp pigen_config ./pi-gen/pigen_config
