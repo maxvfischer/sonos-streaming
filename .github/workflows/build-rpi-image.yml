@@ -16,17 +16,63 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build Docker images and export them
+      - name: Build Darkice and Icecast Docker images and export them
         run: |
+          mkdir -p exported-images
           docker build -t darkice -f Dockerfile.darkice .
           docker build -t icecast -f Dockerfile.icecast .
-          mkdir -p exported-images
           docker save darkice -o exported-images/darkice.tar
           docker save icecast -o exported-images/icecast.tar
 
-      #- name: Build Raspberry Pi image
-      #  run: |
-      #    docker run --rm --privileged -v $PWD:/workspace -w /workspace user/docker-image:latest /bin/bash -c "./build-image.sh"
+      - name: Install dependencies to build RPi image  # See https://github.com/RPi-Distro/pi-gen
+        run: |
+          apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+          dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+          qemu-utils kpartx gpg pigz
+          
+          git clone https://github.com/RPI-Distro/pi-gen.git
+          
+          # Make pi-gen build a RPi lite system
+          touch ./pi-gen/stage3/SKIP ./pi-gen/stage4/SKIP ./pi-gen/stage5/SKIP
+          touch ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
+          
+          cp pigen_config ./pi-gen/pigen_config
+
+      - name: Build Raspberry Pi image
+        run: |
+          cd pi-gen
+          ./build-docker.sh -c pigen_config
+
+      - name: Check file name
+        run: |
+          cd deploy
+          IMAGE_FILE="$(find . -maxdepth 1 -type f -name '*.xz')"
+          echo $IMAGE_FILE
+          pwd
+          ls -lah
+
+      - name: Create dummy file to test upload to GitHub Artifact
+        run: |
+          touch dummy_image.xz
+
+      - name: Upload Raspberry Pi image
+        uses: actions/upload-artifact@v2
+        with:
+          name: rpi-image
+          path: dummy_image.xz
+
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v2
+#        with:
+#          context: .
+#          file:
+#          platforms: linux/arm/v7
+#          push: false
+#          tags: raspberrydocker-image:latest
+#
+#      - name: Build Raspberry Pi image
+#        run: |
+#          docker run --rm --privileged -v $PWD:/workspace -w /workspace user/docker-image:latest /bin/bash -c "./build-image.sh"
 #
 #      - name: Upload Raspberry Pi image
 #        uses: actions/upload-artifact@v2
