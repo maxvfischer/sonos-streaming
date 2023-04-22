@@ -24,58 +24,48 @@ jobs:
 #          docker save darkice -o exported-images/darkice.tar
 #          docker save icecast -o exported-images/icecast.tar
 
-      - name: Install dependencies to build RPi image  # See https://github.com/RPi-Distro/pi-gen
+      - name: Install dependencies and add requirements to build RPi image
         run: |
-          #sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-          #dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-          #qemu-utils kpartx gpg pigz
+          # Dependencies for pi-gen, see https://github.com/RPi-Distro/pi-gen#dependencies
+          sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+          dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+          qemu-utils kpartx gpg pigz
           
+          # Clone pi-gen repository
           git clone https://github.com/RPI-Distro/pi-gen.git
           
-          # Make pi-gen build a RPi lite system
-          #touch ./pi-gen/stage3/SKIP ./pi-gen/stage4/SKIP ./pi-gen/stage5/SKIP
-          #touch ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
-          # touch ./pi-gen/stage2/SKIP_IMAGES
+          # Copy pi-gen config into pi-gen folder
+          cp ./pigen_config ./pi-gen/pigen_config
           
-          cp pigen_config ./pi-gen/pigen_config
+          # Make pi-gen build a RPi lite system by suppressing later stages
+          touch ./pi-gen/stage3/SKIP ./pi-gen/stage4/SKIP ./pi-gen/stage5/SKIP
+          touch ./pi-gen/stage2/SKIP_IMAGES ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
+          
+          # Prepare custom pi-gen build stage with needed files to build Darkice and Icecast services
+          cp -r ./darkice ./stage2-sonos-streaming/00-build-services/files/
+          cp -r ./icecast ./stage2-sonos-streaming/00-build-services/files/
+          cp ./docker-compose.yml ./stage2-sonos-streaming/00-build-services/files/
+          
+          # Copy the systemctl service file used to start the docker files (docker compose) on 
+          # boot of the Raspberry Pi
+          cp ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
+          
+          # Copy custom pi-gen build stage for sonos streaming into pi-gen folder
+          # It's defined inside pigen_config that this stage will be built as well
+          cp -r ./stage2-sonos-streaming ./pi-gen/
 
       - name: Build Raspberry Pi image
         run: |
           cd pi-gen
-          sudo mkdir deploy
-          sudo touch ./deploy/image_2023-04-16-rpi_image-lite.img.xz
-          # ./build-docker.sh -c pigen_config
+          ./build-docker.sh -c pigen_config
 
-      - name: Check file name
-        run: |
-          IMAGE_FILE="$(find ./pi-gen/deploy -maxdepth 1 -type f -name '*.xz')"
-          echo $IMAGE_FILE
-
-#      - name: Create dummy file to test upload to GitHub Artifact
+#      - name: Rename image to prepare for Artifact uploading
 #        run: |
-#          touch dummy_image.xz
+#          IMAGE_PATH="$(find ./pi-gen/deploy -maxdepth 1 -type f -name '*.xz')"
+#          mv $IMAGE_PATH rpi.img.xz
 #
 #      - name: Upload Raspberry Pi image
 #        uses: actions/upload-artifact@v2
 #        with:
-#          name: rpi-image
-#          path: dummy_image.xz
-
-#      - name: Build and push Docker image
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: .
-#          file:
-#          platforms: linux/arm/v7
-#          push: false
-#          tags: raspberrydocker-image:latest
-#
-#      - name: Build Raspberry Pi image
-#        run: |
-#          docker run --rm --privileged -v $PWD:/workspace -w /workspace user/docker-image:latest /bin/bash -c "./build-image.sh"
-#
-#      - name: Upload Raspberry Pi image
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: raspberry-pi-image
-#          path: rpi_sonos_streaming.img
+#          name: rpi.img.xz
+#          path: rpi.img.xz

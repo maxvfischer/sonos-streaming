@@ -5,6 +5,7 @@ services:
     image: darkice
     container_name: darkice
     build:
+      context: ./darkice
       dockerfile: Dockerfile.darkice
     depends_on:
       - icecast
@@ -18,6 +19,7 @@ services:
     image: icecast
     container_name: icecast
     build:
+      context: ./icecast
       dockerfile: Dockerfile.icecast
     ports:
       - "8000:8000"

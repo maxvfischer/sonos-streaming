@@ -1,0 +1,12 @@
+[Unit]
+Description=Sonos streaming service
+After=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/streaming-service.env
+ExecStart=/usr/bin/docker compose -f ${DOCKER_COMPOSE_FILE} up -d
+
+[Install]
+WantedBy=multi-user.target
