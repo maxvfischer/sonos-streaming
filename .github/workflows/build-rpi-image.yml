@@ -37,9 +37,10 @@ jobs:
           # Copy pi-gen config into pi-gen folder
           cp ./pigen_config ./pi-gen/pigen_config
           
-          # Make pi-gen build a RPi lite system by suppressing later stages
-          touch ./pi-gen/stage3/SKIP ./pi-gen/stage4/SKIP ./pi-gen/stage5/SKIP
-          touch ./pi-gen/stage2/SKIP_IMAGES ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
+          # Suppress the image built on stage2, as we're adding a custom state afterwards.
+          # No need to suppress later stages, as it's defined inside the pi-gen config
+          # that they should not run
+          touch ./pi-gen/stage2/SKIP_IMAGES
           
           # Prepare custom pi-gen build stage with needed files to build Darkice and Icecast services
           mkdir -p ./stage2-sonos-streaming/00-build-services/files/
@@ -51,6 +52,9 @@ jobs:
           # boot of the Raspberry Pi
           mkdir -p ./stage2-sonos-streaming/01-setup-startup/files/
           cp ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
+          
+          # Make stage2-sonos-streaming/prerun.sh executable for pi-gen to be able to run it
+          chmod +x ./stage2-sonos-streaming/prerun.sh
           
           # Copy custom pi-gen build stage for sonos streaming into pi-gen folder
           # It's defined inside pigen_config that this stage will be built as well
