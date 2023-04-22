@@ -16,14 +16,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-#      - name: Build Darkice and Icecast Docker images and export them
-#        run: |
-#          mkdir -p exported-images
-#          docker build -t darkice -f Dockerfile.darkice .
-#          docker build -t icecast -f Dockerfile.icecast .
-#          docker save darkice -o exported-images/darkice.tar
-#          docker save icecast -o exported-images/icecast.tar
-
       - name: Install dependencies and add requirements to build RPi image
         run: |
           # Dependencies for pi-gen, see https://github.com/RPi-Distro/pi-gen#dependencies

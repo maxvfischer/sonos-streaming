@@ -29,6 +29,6 @@ on_chroot << EOF
 EOF
 
 # Build Darkice and Icecast docker images
-#on_chroot << EOF
-#  docker compose -f "${HOME}/docker-compose.yml" build
-#EOF
+on_chroot << EOF
+  docker compose -f "${HOME}/docker-compose.yml" build
+EOF
