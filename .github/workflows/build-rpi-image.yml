@@ -42,14 +42,14 @@ jobs:
           touch ./pi-gen/stage2/SKIP_IMAGES ./pi-gen/stage4/SKIP_IMAGES ./pi-gen/stage5/SKIP_IMAGES
           
           # Prepare custom pi-gen build stage with needed files to build Darkice and Icecast services
-          mkdir -r ./stage2-sonos-streaming/00-build-services/files/
+          mkdir -p ./stage2-sonos-streaming/00-build-services/files/
           cp -r ./darkice ./stage2-sonos-streaming/00-build-services/files/
           cp -r ./icecast ./stage2-sonos-streaming/00-build-services/files/
           cp ./docker-compose.yml ./stage2-sonos-streaming/00-build-services/files/
           
           # Copy the systemctl service file used to start the docker files (docker compose) on 
           # boot of the Raspberry Pi
-          mkdir -r ./stage2-sonos-streaming/01-setup-startup/files/
+          mkdir -p ./stage2-sonos-streaming/01-setup-startup/files/
           cp ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
           
           # Copy custom pi-gen build stage for sonos streaming into pi-gen folder
