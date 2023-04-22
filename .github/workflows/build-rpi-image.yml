@@ -48,7 +48,7 @@ jobs:
           
           # Copy the systemctl service file used to start the docker files (docker compose) on 
           # boot of the Raspberry Pi
-          cp ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
+          cp -r ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
           
           # Copy custom pi-gen build stage for sonos streaming into pi-gen folder
           # It's defined inside pigen_config that this stage will be built as well
