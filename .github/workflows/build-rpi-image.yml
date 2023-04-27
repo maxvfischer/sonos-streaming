@@ -1,69 +1,64 @@
-name: Build Raspberry Pi Image
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Install dependencies and add requirements to build RPi image
-        run: |
-          # Dependencies for pi-gen, see https://github.com/RPi-Distro/pi-gen#dependencies
-          sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-          dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-          qemu-utils kpartx gpg pigz
-          
-          # Clone pi-gen repository
-          git clone https://github.com/RPI-Distro/pi-gen.git
-          
-          # Copy pi-gen config into pi-gen folder
-          cp ./pigen_config ./pi-gen/pigen_config
-          
-          # Suppress the image built on stage2, as we're adding a custom state afterwards.
-          # No need to suppress later stages, as it's defined inside the pi-gen config
-          # that they should not run
-          touch ./pi-gen/stage2/SKIP_IMAGES
-          
-          # Prepare custom pi-gen build stage with needed files to build Darkice and Icecast services
-          mkdir -p ./stage2-sonos-streaming/00-build-services/files/
-          cp -r ./darkice ./stage2-sonos-streaming/00-build-services/files/
-          cp -r ./icecast ./stage2-sonos-streaming/00-build-services/files/
-          cp ./docker-compose.yml ./stage2-sonos-streaming/00-build-services/files/
-          
-          # Copy the systemctl service file used to start the docker files (docker compose) on 
-          # boot of the Raspberry Pi
-          mkdir -p ./stage2-sonos-streaming/01-setup-startup/files/
-          cp ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
-          
-          # Make stage2-sonos-streaming/prerun.sh executable for pi-gen to be able to run it
-          chmod +x ./stage2-sonos-streaming/prerun.sh
-          
-          # Copy custom pi-gen build stage for sonos streaming into pi-gen folder
-          # It's defined inside pigen_config that this stage will be built as well
-          cp -r ./stage2-sonos-streaming ./pi-gen/
-
-      - name: Build Raspberry Pi image
-        run: |
-          cd pi-gen
-          ./build-docker.sh -c pigen_config
-
-#      - name: Rename image to prepare for Artifact uploading
-#        run: |
-#          IMAGE_PATH="$(find ./pi-gen/deploy -maxdepth 1 -type f -name '*.xz')"
-#          mv $IMAGE_PATH rpi.img.xz
+#name: Build Raspberry Pi Image
 #
-#      - name: Upload Raspberry Pi image
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: rpi.img.xz
-#          path: rpi.img.xz
+#on:
+#  push:
+#    branches:
+#      - main
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v1
+#
+#      - name: Install dependencies and add requirements to build RPi image
+#        run: |
+#          # Dependencies for pi-gen, see https://github.com/RPi-Distro/pi-gen#dependencies
+#          sudo apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+#          dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
+#          qemu-utils kpartx gpg pigz
+#
+#          # Clone pi-gen repository
+#          git clone https://github.com/RPI-Distro/pi-gen.git
+#
+#          # Copy pi-gen config into pi-gen folder
+#          cp ./pigen_config ./pi-gen/pigen_config
+#
+#          # Suppress the image built on stage2, as we're adding a custom state afterwards.
+#          # No need to suppress later stages, as it's defined inside the pi-gen config
+#          # that they should not run
+#          touch ./pi-gen/stage2/SKIP_IMAGES
+#
+#          # Prepare custom pi-gen build stage with needed files to build Darkice and Icecast services
+#          mkdir -p ./stage2-sonos-streaming/00-build-services/files/
+#          cp -r ./darkice ./stage2-sonos-streaming/00-build-services/files/
+#          cp -r ./icecast ./stage2-sonos-streaming/00-build-services/files/
+#          cp ./docker-compose.yml ./stage2-sonos-streaming/00-build-services/files/
+#
+#          # Copy the systemctl service file used to start the docker files (docker compose) on
+#          # boot of the Raspberry Pi
+#          mkdir -p ./stage2-sonos-streaming/01-setup-startup/files/
+#          cp ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
+#
+#          # Make stage2-sonos-streaming/prerun.sh executable for pi-gen to be able to run it
+#          chmod +x ./stage2-sonos-streaming/prerun.sh
+#
+#          # Copy custom pi-gen build stage for sonos streaming into pi-gen folder
+#          # It's defined inside pigen_config that this stage will be built as well
+#          cp -r ./stage2-sonos-streaming ./pi-gen/
+#
+#      - name: Build Raspberry Pi image
+#        run: |
+#          cd pi-gen
+#          ./build-docker.sh -c pigen_config
+#
+##      - name: Upload Raspberry Pi image
+##        uses: actions/upload-artifact@v2
+##        with:
+##          name: rpi.img.xz
+##          path: pi-gen/deploy/*.xz
