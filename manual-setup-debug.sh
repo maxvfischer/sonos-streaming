@@ -28,12 +28,13 @@ git clone https://github.com/RPi-Distro/pi-gen.git
 touch ./pi-gen/stage2/SKIP_IMAGES ./pi-gen/stage2/SKIP_NOOBS
 
 # Move files
-mkdir -p ./stage2-sonos-streaming/00-build-services/files/
-cp -r ./darkice ./stage2-sonos-streaming/00-build-services/files/
-cp -r ./icecast ./stage2-sonos-streaming/00-build-services/files/
-cp ./docker-compose.yml ./stage2-sonos-streaming/00-build-services/files/
+cp ./sonos_streaming/pigen_config ./pi-gen/pigen_config
+mkdir -p ./sonos_streaming/stage2-sonos-streaming/00-build-services/files/
+cp -r ./sonos_streaming/darkice ./sonos_streaming/stage2-sonos-streaming/00-build-services/files/
+cp -r ./sonos_streaming/icecast ./sonos_streaming/stage2-sonos-streaming/00-build-services/files/
+cp ./sonos_streaming/docker-compose.yml ./sonos_streaming/stage2-sonos-streaming/00-build-services/files/
 
-mkdir -p ./stage2-sonos-streaming/01-setup-startup/files/
-cp ./sonos-streaming.service ./stage2-sonos-streaming/01-setup-startup/files/
+mkdir -p ./sonos_streaming/stage2-sonos-streaming/01-setup-startup/files/
+cp ./sonos_streaming/sonos-streaming.service ./sonos_streaming/stage2-sonos-streaming/01-setup-startup/files/
 
-cp -r ./stage2-sonos-streaming ./pi-gen/
+cp -r ./sonos_streaming/stage2-sonos-streaming ./pi-gen/
