@@ -15,7 +15,6 @@ To stream the sound from a vinyl record player to the Sonos speakers, you will n
 * 1x Behringer U-PHONE UFO202
 
 ## Overview software
-The the main software used are:
 
 ### Darkice
 
