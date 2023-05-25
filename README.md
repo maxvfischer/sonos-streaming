@@ -4,6 +4,20 @@ This guide goes through all the steps to stream music from an analog vinyl playe
 
 The guide is based on this Instructable guide: https://www.instructables.com/Add-Aux-to-Sonos-Using-Raspberry-Pi/.
 
+# Table of content
+1. [Needed hardware](#needed-hardware)
+2. [Overview software](#overview-software)
+	1. [Darkice](#darkice)
+	2. 	[Icecast2](#icecast2)
+3. [How to stream vinyl to your Sonos speakers](#how-to-stream-vinyl-to-your-sonos-speakers)
+	1. [Install Raspberry Pi Installer](#install-raspberry-pi-installer)
+	2. [Install Raspberry Pi OS](#install-raspberry-pi-os)
+	3. [Connect vinyl player to the Raspberry Pi](#connect-vinyl-player-to-the-raspberry-pi)
+	4. [Install software to stream audio](#install-software-to-stream-audio)
+	5. [Start the streaming service](#start-the-streaming-service)
+	6. [Point the Sonos speakers to the vinyl stream](#point-the-sonos-speakers-to-the-vinyl-stream)
+		
+
 
 ## Needed hardware
 To stream the sound from a vinyl record player to the Sonos speakers, you will need:
@@ -32,7 +46,7 @@ broadcast it out in our local network. This is what the Sonos speakers will pick
 URL: [https://icecast.org](https://icecast.org)
 
 
-## Guide of how to stream vinyl to your Sonos speakers
+## How to stream vinyl to your Sonos speakers
 
 ### Install Raspberry Pi Installer
 
