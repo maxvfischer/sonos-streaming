@@ -1,8 +1,0 @@
-IMG_NAME=rpi_image
-TARGET_HOSTNAME=vinyl.local
-FIRST_USER_NAME="pi"
-FIRST_USER_PASS="raspberry"
-DISABLE_FIRST_BOOT_USER_RENAME=1
-ENABLE_SSH=1
-DEPLOY_COMPRESSION=xz
-STAGE_LIST="stage0 stage1 stage2 stage2-sonos-streaming"
