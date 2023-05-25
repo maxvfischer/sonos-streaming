@@ -1,4 +1,5 @@
-# How to stream your vinyl record player to Sonos (Airplay2)
+![main_gif](./images/main_banner.gif)
+
 This guide is based on this Instructable guide: https://www.instructables.com/Add-Aux-to-Sonos-Using-Raspberry-Pi/
 
 ## Needed hardware
