@@ -99,13 +99,84 @@ Then connect the red and white RCA cable from the vinyl player to the equivalent
 
 ![installer_12](./images/setup_hardware/installer_12.png)
 
+Finally, connect the power cable to the Raspberry Pi.
+
+![installer_13](./images/setup_hardware/installer_13.png)
+
+### Install software to stream audio
+
+First, ssh into the Raspberry Pi
+
+```bash
+ssh <THE_USERNAME_YOU_PICKED>@vinyl.local
+```
+
+Clone down this repository
+
+```bash
+git clone git@github.com:maxvfischer/sonos_streaming.git
+```
+
+Go into the `sonos_streaming` folder
+
+```bash
+ls sonos_streaming
+```
+
+I've prepared a script installing docker. It's based on the documentation written by docker ([https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/)). You can either install docker by running the commands below, or go to the link and follow the instructions there.
+
+```bash
+sudo chmod +x install-docker.sh
+sudo ./install-docker.sh
+```
+
+### Start the streaming service
+
+To start the streaming service, run
+
+```bash
+sudo docker compose up -d
+```
+
+This will build and start the docker containers used to stream the signal from the vinyl to the sonos speakers.
+
+### Point the Sonos speakers to the vinyl stream
+
+Make sure that you have the Sonos app installer on your phone. It can be found in the App store. Also make sure that your Sonos system is properly set up and that you can control your speakers from your app.
+
+Sorry about the language in the upcoming images. I wasn't able to change the language in my app from Swedish to English.
+
+Open the Sonos app and click on the `Music` icon in the botton navigation bar. Then Click `Add a Service`, scroll down and click on `TuneIn` (not `TunIn (New)`, but the old one). Then follow the instructions to add `TunIn` to your app.
+
+![installer_14](./images/setup_hardware/installer_14.png)
+
+![installer_15](./images/setup_hardware/installer_15.png)
 
 
-#### Set up static IP address
-We're setting a static IP address on the Raspberry Pi to simplify SSH-ing to it.
+When added correctly, `TunIn` should show up under your Services. Click on it, then click on `My radio stations`
 
-### Connect U-PHONE UFO202
+![installer_16](./images/setup_hardware/installer_16.png)
 
-## Set up software
+![installer_17](./images/setup_hardware/installer_17.png)
+
+Click on the three dots in the top right corner, then on `Add a new radio station`.
+
+![installer_18](./images/setup_hardware/installer_18.png)
+
+![installer_19](./images/setup_hardware/installer_19.png)
+
+Fill in the following in the prompt:
+
+* Streaming-URL: http://vinyl.local:8000/rapi.mp3
+* Station name: Vinyl
+
+![installer_20](./images/setup_hardware/installer_20.png)
+
+Your vinal streaming station should now show up under `My radio stations`. You can now click on the `Vinyl` station, check the speakers you want to play the music from, put on a vinyl on your record player and enjoy.
+
+![installer_21](./images/setup_hardware/installer_21.png)
+
+![installer_22](./images/setup_hardware/installer_22.png)
+
 
 
