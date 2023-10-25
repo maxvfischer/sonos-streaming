@@ -32,3 +32,4 @@ EOF
 echo "Enabling the service ${SERVICENAME}.service"
 # Autostart systemd service
 sudo systemctl enable $SERVICENAME.service
+sudo systemctl start $SERVICENAME.service

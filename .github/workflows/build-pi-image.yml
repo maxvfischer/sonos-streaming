@@ -1,0 +1,25 @@
+name: Build Raspberry Pi Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Raspberry Pi image
+        run: |
+          sudo chmod +x ./build-pi-image.sh
+          sudo ./build-pi-image.sh
+
+      - name: Upload Raspberry Pi image
+        uses: actions/upload-artifact@v3
+        with:
+          name: rpi.img.xz
+          path: pi-gen/deploy/*.img.xz

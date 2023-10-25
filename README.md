@@ -83,7 +83,6 @@ Before installing the OS, we want to change some configurations. This is done by
 
 Do the following:
 
-* Check `Set hostname` and change it to `vinyl.local`.
 * Check `Enable SSH` and `Use password authentication`.
 * Check `Set username and password` and choose whatever username and password you want to use to log into the Raspberry Pi.
 * Check `Configure wireless LAN` and fill in the name of the wifi your Sonos speakers are connected to, as well as the wifi password.
@@ -180,7 +179,7 @@ Click on the three dots in the top right corner, then on `Add a new radio statio
 
 Fill in the following in the prompt:
 
-* Streaming-URL: http://vinyl.local:8000/rapi.mp3
+* Streaming-URL: http://raspberrypi.local:8000/rapi.mp3
 * Station name: Vinyl
 
 ![installer_20](./images/setup_hardware/installer_20.png)
@@ -190,6 +189,3 @@ Your vinal streaming station should now show up under `My radio stations`. You c
 ![installer_21](./images/setup_hardware/installer_21.png)
 
 ![installer_22](./images/setup_hardware/installer_22.png)
-
-
-
