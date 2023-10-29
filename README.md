@@ -1,22 +1,21 @@
 ![main_gif](./images/main_banner.gif)
 
-This guide goes through all the steps to stream music from an analog vinyl player to your Sonos system, by using a Raspberry Pi.
+This guide goes through all the steps to stream music from an analog vinyl player (or any other RCA source) to your Sonos system, by using a Raspberry Pi.
 
-The guide is based on this Instructable guide: https://www.instructables.com/Add-Aux-to-Sonos-Using-Raspberry-Pi/.
+The guide is based on this Instructable guide: https://www.instructables.com/Add-Aux-to-Sonos-Using-Raspberry-Pi/. But I've spent time simplifying the process, wrapping everything in a `docker-compose.yml` and creating a pre-built Raspberry Pi image where everything is set up using a `systemd` service.
 
 # Table of content
 1. [Needed hardware](#needed-hardware)
 2. [Overview software](#overview-software)
 	1. [Darkice](#darkice)
-	2. 	[Icecast2](#icecast2)
+	2. [Icecast2](#icecast2)
 3. [How to stream vinyl to your Sonos speakers](#how-to-stream-vinyl-to-your-sonos-speakers)
-	1. [Install Raspberry Pi Installer](#install-raspberry-pi-installer)
-	2. [Install Raspberry Pi OS](#install-raspberry-pi-os)
-	3. [Connect vinyl player to the Raspberry Pi](#connect-vinyl-player-to-the-raspberry-pi)
-	4. [Install software to stream audio](#install-software-to-stream-audio)
-	5. [Start the streaming service](#start-the-streaming-service)
+	1. [Download the pre-built Raspberry Pi image](#download-the-pre-built-raspberry-pi-image)
+	2. [Unzip the Raspberry Pi image](#unzip-the-raspberry-pi-image)
+	3. [Install Raspberry Pi Installer](#install-raspberry-pi-installer)
+	4. [Install the Raspberry Pi image to the SD card](#install-the-raspberry-pi-image-to-the-sd-card)
+	5. [Connect vinyl player to the Raspberry Pi](#connect-vinyl-player-to-the-raspberry-pi)
 	6. [Point the Sonos speakers to the vinyl stream](#point-the-sonos-speakers-to-the-vinyl-stream)
-		
 
 
 ## Needed hardware
@@ -48,6 +47,21 @@ URL: [https://icecast.org](https://icecast.org)
 
 ## How to stream vinyl to your Sonos speakers
 
+> **Note**
+> This section uses my pre-built Raspberry Pi image. If you wish to use the default Raspberry Pi image and set up the service yourself, that is also possible. This can be done by flashing the SD card with the default RPi image, clone down this repository on the RPi, `cd` into the repo, install docker by executing `install-docker.sh` and setting up the service by running `setup-service.sh`.
+
+### Download the pre-built Raspberry Pi image
+
+Start by downloading the pre-built Raspberry Pi image here: [https://github.com/maxvfischer/sonos-streaming/suites/17721720018/artifacts/1014666374](https://github.com/maxvfischer/sonos-streaming/suites/17721720018/artifacts/1014666374)
+
+This image was built using `pi-gen`, by executing `build-pi-image.sh` inside a GitHub Action pipeline ([https://github.com/maxvfischer/sonos-streaming/actions/runs/6682008698/job/18156701236](https://github.com/maxvfischer/sonos-streaming/actions/runs/6682008698/job/18156701236)).
+
+The image will automatically start the `systemd` service `sonos-streaming` on boot up, starting the streaming by executing `docker-compose.yml`.
+
+### Unzip the Raspberry Pi image
+
+As both `pi-gen` and `GitHub Actions` apply compression, you will need to decompress it twice until you have the raw image file `image_2023-10-29-sonos-streaming.img`.
+
 ### Install Raspberry Pi Installer
 
 The Raspberry Pi Installer is a software developed by the Raspberry Pi Foundation to simplify the installation of the Raspberry Pi OS to a microSD card.
@@ -56,101 +70,69 @@ Download the Raspberry Pi Installer on your computer by following the instructio
 
 After you've downloaded, installed and started the installer, you should see a page similar to this:
 
-![installer_1](./images/setup_hardware/installer_1.png)
+![installer_1](./images/installer_1.png)
 
 
-### Install Raspberry Pi OS
+### Install the Raspberry Pi image to the SD card
 
 Start of by inserting the microSD card you're planing to use into the computer.
 
-![installer_4](./images/setup_hardware/installer_4.png)
+![installer_4](./images/installer_4.png)
 
-![installer_3](./images/setup_hardware/installer_3.png)
+![installer_3](./images/installer_3.png)
 
-Then click on `CHOOSE OS` and choose `Raspberry Pi OS (32 bit)`. This will automatically download and install the latest release of the official Raspberry Pi OS to the microSD card.
+Then click on `CHOOSE OS` and choose `Use custom` at the very bottom. Look for and choose the downloaded Raspberry Pi image.
 
-![installer_2](./images/setup_hardware/installer_2.png)
+![installer_2](./images/installer_2.png)
 
 After that, click on `CHOOSE STORAGE` and choose the microSD card you just inserted.
 
-![installer_5](./images/setup_hardware/installer_5.png)
+![installer_5](./images/installer_5.png)
 
 Before installing the OS, we want to change some configurations. This is done by clicking on the cogwheel in the lower right corner.
 
-![installer_6](./images/setup_hardware/installer_6.png)
-
-![installer_7](./images/setup_hardware/installer_7.png)
+![installer_6](./images/installer_6.png)
 
 Do the following:
 
 * Check `Enable SSH` and `Use password authentication`.
 * Check `Set username and password` and choose whatever username and password you want to use to log into the Raspberry Pi.
-* Check `Configure wireless LAN` and fill in the name of the wifi your Sonos speakers are connected to, as well as the wifi password.
+* Check `Configure wireless LAN` and **fill in the name of the wifi your Sonos speakers are connected to, as well as the wifi password** (this is very important, if done incorrectly, the speakers won't find the music stream).
 
 Then click `SAVE`.
 
+![installer_7](./images/installer_7.png)
+
+![installer_7_1](./images/installer_7_1.png)
+
+
 To install the OS to the microSD card, click `WRITE`. You might get prompted with a warning saying that all existing data will be erasted. If you're fine with this and want to proceed installing the OS, click `YES`.
 
-![installer_8](./images/setup_hardware/installer_8.png)
+![installer_8](./images/installer_8.png)
 
 The installation should take approx. 5-10 minutes.
 
-![installer_9](./images/setup_hardware/installer_9.png)
+![installer_9](./images/installer_9.png)
 
 When the installation is done, remove the microSD card from your computer and insert it into the Raspberry Pi.
 
-![installer_10](./images/setup_hardware/installer_10.png)
+![installer_10](./images/installer_10.png)
+
 
 ### Connect vinyl player to the Raspberry Pi
 
 Start of by connecting the USB from Behringer U-PHONE UFO202 to the Raspberry Pi.
 
-![installer_11](./images/setup_hardware/installer_11.png)
+![installer_11](./images/installer_11.png)
 
 Then connect the red and white RCA cable from the vinyl player to the equivalent **input** on the Behringer U-PHONE UFO202. Red to input red, white to input white.
 
-![installer_12](./images/setup_hardware/installer_12.png)
+![installer_12](./images/installer_12.png)
 
 Finally, connect the power cable to the Raspberry Pi.
 
-![installer_13](./images/setup_hardware/installer_13.png)
+![installer_13](./images/installer_13.png)
 
-### Install software to stream audio
-
-First, ssh into the Raspberry Pi
-
-```bash
-ssh <THE_USERNAME_YOU_PICKED>@vinyl.local
-```
-
-Clone down this repository
-
-```bash
-git clone git@github.com:maxvfischer/sonos_streaming.git
-```
-
-Go into the `sonos_streaming` folder
-
-```bash
-ls sonos_streaming
-```
-
-I've prepared a script installing docker. It's based on the documentation written by docker ([https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/)). You can either install docker by running the commands below, or go to the link and follow the instructions there.
-
-```bash
-sudo chmod +x install-docker.sh
-sudo ./install-docker.sh
-```
-
-### Start the streaming service
-
-To start the streaming service, run
-
-```bash
-sudo docker compose up -d
-```
-
-This will build and start the docker containers used to stream the signal from the vinyl to the sonos speakers.
 
 ### Point the Sonos speakers to the vinyl stream
 
@@ -160,32 +142,32 @@ Sorry about the language in the upcoming images. I wasn't able to change the lan
 
 Open the Sonos app and click on the `Music` icon in the botton navigation bar. Then Click `Add a Service`, scroll down and click on `TuneIn` (not `TunIn (New)`, but the old one). Then follow the instructions to add `TunIn` to your app.
 
-![installer_14](./images/setup_hardware/installer_14.png)
+![installer_14](./images/installer_14.png)
 
-![installer_15](./images/setup_hardware/installer_15.png)
+![installer_15](./images/installer_15.png)
 
 
 When added correctly, `TunIn` should show up under your Services. Click on it, then click on `My radio stations`
 
-![installer_16](./images/setup_hardware/installer_16.png)
+![installer_16](./images/installer_16.png)
 
-![installer_17](./images/setup_hardware/installer_17.png)
+![installer_17](./images/installer_17.png)
 
 Click on the three dots in the top right corner, then on `Add a new radio station`.
 
-![installer_18](./images/setup_hardware/installer_18.png)
+![installer_18](./images/installer_18.png)
 
-![installer_19](./images/setup_hardware/installer_19.png)
+![installer_19](./images/installer_19.png)
 
 Fill in the following in the prompt:
 
 * Streaming-URL: http://raspberrypi.local:8000/rapi.mp3
 * Station name: Vinyl
 
-![installer_20](./images/setup_hardware/installer_20.png)
+![installer_20](./images/installer_20.png)
 
 Your vinal streaming station should now show up under `My radio stations`. You can now click on the `Vinyl` station, check the speakers you want to play the music from, put on a vinyl on your record player and enjoy.
 
-![installer_21](./images/setup_hardware/installer_21.png)
+![installer_21](./images/installer_21.png)
 
-![installer_22](./images/setup_hardware/installer_22.png)
+![installer_22](./images/installer_22.png)
