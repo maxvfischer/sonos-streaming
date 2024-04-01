@@ -2,7 +2,7 @@
 
 This guide goes through all the steps to stream music from an analog vinyl player (or any other RCA source) to your Sonos system, by using a Raspberry Pi.
 
-The guide is based on this Instructable guide: https://www.instructables.com/Add-Aux-to-Sonos-Using-Raspberry-Pi/. But I've spent time simplifying the process, wrapping everything in a `docker-compose.yml` and creating a pre-built Raspberry Pi image where everything is set up using a `systemd` service.
+The guide is based on this Instructable guide: https://www.instructables.com/Add-Aux-to-Sonos-Using-Raspberry-Pi/. But I've spent time simplifying the process, wrapping everything in a `docker-compose.yml` and creating a pre-built Raspberry Pi image where everything is set up using a `systemd` service. 
 
 # Table of content
 1. [Needed hardware](#needed-hardware)
