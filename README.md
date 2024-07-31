@@ -56,7 +56,7 @@ Start by downloading the pre-built Raspberry Pi image here: [https://github.com/
 
 This image was built using `pi-gen`, by executing `build-pi-image.sh` inside a GitHub Action pipeline ([https://github.com/maxvfischer/sonos-streaming/actions/runs/6682008698/job/18156701236](https://github.com/maxvfischer/sonos-streaming/actions/runs/6682008698/job/18156701236)).
 
-The image will automatically start the `systemd` service `sonos-streaming` on boot up, starting the streaming by executing `docker-compose.yml`.
+The image will automatically start the `systemd` service `sonos-streaming` on boot up, starting the streaming by executing `docker-compose.yml`. 
 
 ### Unzip the Raspberry Pi image
 
