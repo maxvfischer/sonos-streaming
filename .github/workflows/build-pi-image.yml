@@ -3,7 +3,7 @@ name: Build Raspberry Pi Image
 on:
   push:
     branches:
-      - main
+      - fix-workflow
 
 jobs:
   build:
