@@ -133,41 +133,71 @@ Finally, connect the power cable to the Raspberry Pi.
 
 ![installer_13](./images/installer_13.png)
 
-
 ### Point the Sonos speakers to the vinyl stream
 
-Make sure that you have the Sonos app installer on your phone. It can be found in the App store. Also make sure that your Sonos system is properly set up and that you can control your speakers from your app.
+Make sure that you have the following apps installed on your phone:
 
-Sorry about the language in the upcoming images. I wasn't able to change the language in my app from Swedish to English.
+* Sonos
+* TuneIn Radio
 
-Open the Sonos app and click on the `Music` icon in the botton navigation bar. Then Click `Add a Service`, scroll down and click on `TuneIn` (not `TunIn (New)`, but the old one). Then follow the instructions to add `TunIn` to your app.
+Both can be found in the App store. Also make sure that your Sonos system is properly set up and that you can control your speakers from the Sonos app.
+
+Sorry about the language in the upcoming images. I wasn't able to change the language in my app from German to English.
+
+Opening the TuneIn Radio app, where you need to start off by set up a free account.
 
 ![installer_14](./images/installer_14.png)
 
+After you've created an account and logged in, click on `LIBRARY` (`BIBLIOTHEK` in the print screen).
+
 ![installer_15](./images/installer_15.png)
 
-
-When added correctly, `TunIn` should show up under your Services. Click on it, then click on `My radio stations`
+Click on `Custom URL` (`Benutzerdefinierte URL`)
 
 ![installer_16](./images/installer_16.png)
 
+Write the custom streaming url, http://raspberrypi.local:8000/rapi.mp3, and then click on it.
+
 ![installer_17](./images/installer_17.png)
 
-Click on the three dots in the top right corner, then on `Add a new radio station`.
+You will now see your vinal stream starting in the app. If you have a record playing on the vinyl, you should hear music streaming from the phone.
+
+Click on the heart symbol to add it as a favorite. Write whatever name you want to give it.
 
 ![installer_18](./images/installer_18.png)
 
 ![installer_19](./images/installer_19.png)
 
-Fill in the following in the prompt:
-
-* Streaming-URL: http://raspberrypi.local:8000/rapi.mp3
-* Station name: Vinyl
+You should now see the stream visible under the `LIBRARY` tab.
 
 ![installer_20](./images/installer_20.png)
 
-Your vinal streaming station should now show up under `My radio stations`. You can now click on the `Vinyl` station, check the speakers you want to play the music from, put on a vinyl on your record player and enjoy.
+Now it's time to move to the Sonos app. Open the app and click on the plus under `Your services` (or similarly named, it's `Deine Dienste` in German).
 
 ![installer_21](./images/installer_21.png)
 
+Search for `TuneIn` and click on `TuneIn (New)`.
+
 ![installer_22](./images/installer_22.png)
+
+Add `TuneIn` to your Sonos app, by clicking on `Add to sonos` (or similarly named) and then `Authorize`.
+
+![installer_23](./images/installer_23.png)
+
+![installer_24](./images/installer_24.png)
+
+Log in with your TuneIn account.
+
+![installer_25](./images/installer_25.png)
+
+You should now see `TuneIn` under `Your services`.
+
+![installer_26](./images/installer_26.png)
+
+After clicking on it, you will see the previously favourited stream.
+
+![installer_27](./images/installer_27.png)
+
+Click on it, click play and choose the Sonos speakers you want to stream to. You are now fully set up and should hear your vinyl streaming to your speakers!
+
+![installer_28](./images/installer_28.png)
