@@ -52,7 +52,7 @@ URL: [https://icecast.org](https://icecast.org)
 
 ### Download the pre-built Raspberry Pi image
 
-Start by downloading the pre-built Raspberry Pi image here: [https://github.com/maxvfischer/sonos-streaming/suites/17721720018/artifacts/1014666374](https://github.com/maxvfischer/sonos-streaming/suites/17721720018/artifacts/1014666374)
+Start by downloading the pre-built Raspberry Pi image here: [https://github.com/maxvfischer/sonos-streaming/actions/runs/10234626939/artifacts/1773367264](https://github.com/maxvfischer/sonos-streaming/actions/runs/10234626939/artifacts/1773367264)
 
 This image was built using `pi-gen`, by executing `build-pi-image.sh` inside a GitHub Action pipeline ([https://github.com/maxvfischer/sonos-streaming/actions/runs/6682008698/job/18156701236](https://github.com/maxvfischer/sonos-streaming/actions/runs/6682008698/job/18156701236)).
 
