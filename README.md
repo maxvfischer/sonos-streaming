@@ -200,4 +200,4 @@ After clicking on it, you will see the previously favourited stream.
 
 Click on it, click play and choose the Sonos speakers you want to stream to. You are now fully set up and should hear your vinyl streaming to your speakers!
 
-![installer_28](./images/installer_28.png)
+![installer_28](./images/installer_28.png) 
