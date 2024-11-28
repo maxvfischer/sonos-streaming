@@ -52,9 +52,9 @@ URL: [https://icecast.org](https://icecast.org)
 
 ### Download the pre-built Raspberry Pi image
 
-Start by downloading the pre-built Raspberry Pi image here: [https://github.com/maxvfischer/sonos-streaming/actions/runs/10234626939/artifacts/1773367264](https://github.com/maxvfischer/sonos-streaming/actions/runs/10234626939/artifacts/1773367264)
+Start by downloading the pre-built Raspberry Pi image here: [https://github.com/maxvfischer/sonos-streaming/actions/runs/12058015195/artifacts/2246853310](https://github.com/maxvfischer/sonos-streaming/actions/runs/12058015195/artifacts/2246853310). If the image has expired, [ping me in this issue](https://github.com/maxvfischer/sonos-streaming/issues/5), and I'll restart the build.
 
-This image was built using `pi-gen`, by executing `build-pi-image.sh` inside a GitHub Action pipeline ([https://github.com/maxvfischer/sonos-streaming/actions/runs/10234626939](https://github.com/maxvfischer/sonos-streaming/actions/runs/10234626939)).
+This image was built using `pi-gen`, by executing `build-pi-image.sh` inside a GitHub Action pipeline ([https://github.com/maxvfischer/sonos-streaming/actions/runs/12058015195](https://github.com/maxvfischer/sonos-streaming/actions/runs/12058015195)).
 
 The image will automatically start the `systemd` service `sonos-streaming` on boot up, starting the streaming by executing `docker-compose.yml`. 
 
