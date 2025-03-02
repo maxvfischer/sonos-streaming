@@ -1,8 +1,9 @@
 name: Build Raspberry Pi Image
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
+  push:
+    branches:
+      - add-cron
 
 jobs:
   build:
@@ -17,8 +18,15 @@ jobs:
           sudo chmod +x ./build-pi-image.sh
           sudo ./build-pi-image.sh
 
-      - name: Upload Raspberry Pi image
-        uses: actions/upload-artifact@v3
+      - name: Create release
+        uses: softprops/action-gh-release@v2
         with:
-          name: rpi.img.xz
-          path: pi-gen/deploy/*.img.xz
+          tag_name: v${{ github.run_number }}  # Or any versioning scheme you prefer
+          name: Sonos Streaming Image - v${{ github.run_number }}
+          body: |
+            Automated build of the Sonos streaming image.
+            Build date: ${{ github.event.repository.updated_at }}
+          files: |
+            pi-gen/deploy/*.img.xz
+          draft: false
+          prerelease: false
