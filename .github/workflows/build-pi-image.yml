@@ -19,7 +19,8 @@ jobs:
           sudo ./build-pi-image.sh
 
       - name: Upload Raspberry Pi image
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rpi.img.xz
           path: pi-gen/deploy/*.img.xz
+          overwrite: true
