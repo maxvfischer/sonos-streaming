@@ -4,31 +4,42 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build Raspberry Pi image
         run: |
-          sudo chmod +x ./build-pi-image.sh
+          chmod +x ./build-pi-image.sh
           sudo ./build-pi-image.sh
 
+      - name: Get build information
+        id: build_info
+        run: |
+          echo "date=$(date -u +'%Y-%m-%d %H:%M UTC')" >> "$GITHUB_OUTPUT"
+
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
-          tag_name: v1.0
-          name: Sonos Streaming Image - v1.0
+          tag_name: build-${{ github.run_number }}
+          name: Sonos Streaming Image - Build ${{ github.run_number }}
           body: |
             Automated build of the Sonos streaming image.
-            Build date: ${{ github.event.repository.updated_at }}
+
+            Build date: ${{ steps.build_info.outputs.date }}
+            Commit: ${{ github.sha }}
+            Build number: ${{ github.run_number }}
           files: |
             pi-gen/deploy/*.img.xz
+          fail_on_unmatched_files: true
           draft: false
           prerelease: false

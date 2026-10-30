@@ -7,7 +7,9 @@ echo "Creating a systemd service file: /etc/systemd/system/${SERVICENAME}.servic
 sudo cat > /etc/systemd/system/$SERVICENAME.service << EOF
 [Unit]
 Description=Sonos streaming service
+Wants=network-online.target
 Requires=docker.service
+After=network-online.target
 After=docker.service
 
 [Service]
@@ -15,7 +17,7 @@ User=root
 Group=docker
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=$(pwd)
+WorkingDirectory=/etc/sonos-streaming
 
 ExecStartPre=/usr/bin/docker compose down
 

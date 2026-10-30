@@ -1,10 +1,11 @@
-# Use the focal Ubuntu image as the base
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Install dependencies
-RUN apt update -y
-RUN apt install darkice -y
-RUN apt install alsa-utils -y
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        darkice \
+        alsa-utils && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy config
 COPY darkice.cfg darkice.cfg

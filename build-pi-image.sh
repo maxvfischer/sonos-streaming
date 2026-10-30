@@ -2,9 +2,9 @@
 
 # 1. Install build requirements of pi-gen
 apt-get update -y
-apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
-dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
-qemu-utils kpartx gpg pigz xxd arch-test -y
+apt-get install coreutils quilt parted qemu-user-binfmt debootstrap zerofree zip \
+dosfstools e2fsprogs libcap2-bin grep rsync xz-utils file git curl bc \
+gpg pigz xxd arch-test bmap-tools kmod
 
 # 2. Clone the pi-gen repository
 git clone https://github.com/RPi-Distro/pi-gen.git

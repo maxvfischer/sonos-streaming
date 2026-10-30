@@ -1,9 +1,9 @@
-# Use the focal Ubuntu image as the base
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install icecast2 -y
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends icecast2 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Configure icecast2
 COPY icecast.xml /etc/icecast2/icecast.xml
